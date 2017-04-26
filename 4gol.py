@@ -16,9 +16,9 @@ def gen_random_board(size):
 
 # Determines cell state in a new tick
 def next_tick(cell, neighbors): 
-    if cell == 1 and neighbors in [2, 3]:
+    if cell and neighbors in [2, 3]:
             return 1
-    elif cell == 0 and neighbors == 3:
+    elif not cell and neighbors == 3:
             return 1
     return 0
 
@@ -36,7 +36,7 @@ def count_neighbors(x, y, board, size):
         board[mod(x - 1, size)][mod(y - 1, size)]   
     )
 
-# Mod function - makes the array a torus
+# Psuedo-modulo function, used to make a torus
 def mod(n, size): 
     size -= 1
     if n < 0:
