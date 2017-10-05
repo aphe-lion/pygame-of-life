@@ -65,6 +65,8 @@ def main():
                         help = "Enables colours")
     parser.add_argument("-k", type = int, default = 0, 
                         help = "Maximum life", metavar = "")
+    parser.add_argument("-r", type = int, default = 0, 
+                        help = "Max runtime of the game", metavar = "")
 
     # Variable setup
     args = parser.parse_args()
@@ -74,16 +76,18 @@ def main():
     time_delay = args.t
     colour_enabled = args.c
     age_cap = args.k
+    step_cap = args.r
 
     board = gen_random_board(cell_num)
     neighbors = gen_blank_board(cell_num)
     cell_age = gen_blank_board(cell_num)
+    step_counter = 0
 
     # Pygame setup
     pygame.init()
-    displaySize = ((cell_size + 1) * cell_num) - 1
-    displaySize = (displaySize, displaySize)
-    display = pygame.display.set_mode(displaySize)
+    display_size = ((cell_size + 1) * cell_num) - 1
+    display_size = (display_size, display_size)
+    display = pygame.display.set_mode(display_size)
 
     pygame.display.set_caption("Conway's Game of Life")
     c_black = (0, 0, 0)
@@ -92,15 +96,15 @@ def main():
     c_blue = (0, 255, 0)
     c_green = (0, 0, 255)
 
-    # Main loop, do forever
-    while 1: # True:
+    while 1:
         # Get keypresses
         pygame.event.pump()
         keys_pressed = pygame.key.get_pressed()
 
         # Act on pressed keys
-        if keys_pressed[pygame.K_r]:
-            board = gen_random_board(cell_num) 
+        if keys_pressed[pygame.K_r] or (step_cap and step_counter > step_cap):
+            board = gen_random_board(cell_num)
+            step_counter = 0
         if keys_pressed[pygame.K_ESCAPE]:
             pygame.quit()
             exit()
@@ -144,6 +148,8 @@ def main():
                 board[x][y] = next_tick(board[x][y], neighbors[x][y])
                 if age_cap and cell_age[x][y] > age_cap:
                     board[x][y] = 0
+
+        step_counter += 1
 
         # Delay if in debug mode
         if not debug_mode:
