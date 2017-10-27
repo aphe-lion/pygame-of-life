@@ -5,12 +5,12 @@ from argparse import ArgumentParser
 
 # Board initialising
 def gen_blank_board(size):
-    # Return 2d list of 0s using list comprehension
+    # Return nested list of 0s using list comprehension
     return [[0 for y in xrange(size)] for x in xrange(size)]
 
 # Board initialising
 def gen_random_board(size):
-    # Return 2d list of random 1s and 0s using list comprehension
+    # Return nested list of random 1s and 0s using list comprehension
     return [[choice([0, 0, 0, 1, 1]) for y in xrange(size)] \
             for x in xrange(size)]
 
@@ -24,7 +24,6 @@ def next_tick(cell, neighbors):
 
 # Counts a cell's neighbors
 def count_neighbors(x, y, board, size): 
-    # Return the summed value of the neighboring cells
     return int(                                 
         board[x             ][mod(y - 1, size)] +  
         board[mod(x + 1, size)][mod(y - 1, size)] +  
@@ -45,7 +44,7 @@ def mod(n, size):
         return 0
     return n
 
-# This is were the magic happens
+# This is where the magic happens
 def main():
     # Print controls
     print "Controls: R - restart, Esc - quit"
