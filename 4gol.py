@@ -3,17 +3,13 @@ from time import sleep
 from random import randint, seed, choice
 from argparse import ArgumentParser
 
-# Board initialising
-def gen_blank_board(size):
-    # Return nested list of 0s using list comprehension
+# Board initialising, blank or random
+def gen_board(size, random=False):
+    if random:
+        return [[choice([0, 0, 0, 1, 1]) for y in xrange(size)] for x in xrange(size)]  
+    
     return [[0 for y in xrange(size)] for x in xrange(size)]
-
-# Board initialising
-def gen_random_board(size):
-    # Return nested list of random 1s and 0s using list comprehension
-    return [[choice([0, 0, 0, 1, 1]) for y in xrange(size)] \
-            for x in xrange(size)]
-
+      
 # Determines cell state in a new tick
 def next_tick(cell, neighbors): 
     if cell and neighbors in [2, 3]:
@@ -25,11 +21,11 @@ def next_tick(cell, neighbors):
 # Counts a cell's neighbors
 def count_neighbors(x, y, board, size): 
     return int(                                 
-        board[x             ][mod(y - 1, size)] +  
+        board[x               ][mod(y - 1, size)] +  
         board[mod(x + 1, size)][mod(y - 1, size)] +  
         board[mod(x + 1, size)][y             ] +  
         board[mod(x + 1, size)][mod(y + 1, size)] +  
-        board[x             ][mod(y + 1, size)] +  
+        board[x               ][mod(y + 1, size)] +  
         board[mod(x - 1, size)][mod(y + 1, size)] +  
         board[mod(x - 1, size)][y             ] +  
         board[mod(x - 1, size)][mod(y - 1, size)]   
@@ -77,9 +73,9 @@ def main():
     age_cap = args.k
     step_cap = args.r
 
-    board = gen_random_board(cell_num)
-    neighbors = gen_blank_board(cell_num)
-    cell_age = gen_blank_board(cell_num)
+    board = gen_board(cell_num, True)
+    neighbors = gen_board(cell_num)
+    cell_age = gen_board(cell_num)
     step_counter = 0
 
     # Pygame setup
@@ -92,8 +88,8 @@ def main():
     c_black = (0, 0, 0)
     c_white = (255, 255, 255)
     c_red = (255, 0, 0)
-    c_blue = (0, 255, 0)
-    c_green = (0, 0, 255)
+    c_blue = (0, 0, 255)
+    c_green = (0, 255, 0)
 
     while 1:
         # Get keypresses
@@ -102,7 +98,7 @@ def main():
 
         # Act on pressed keys
         if keys_pressed[pygame.K_r] or (step_cap and step_counter > step_cap):
-            board = gen_random_board(cell_num)
+            board = gen_board(cell_num, True)
             step_counter = 0
         if keys_pressed[pygame.K_ESCAPE]:
             pygame.quit()
@@ -154,7 +150,7 @@ def main():
         if not debug_mode:
             sleep(time_delay)
         else:
-            sleep(0.100)
+            sleep(0.500)
 
 if __name__ == "__main__":
     main()
