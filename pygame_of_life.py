@@ -109,8 +109,8 @@ def main():
     c_black = (0, 0, 0)
     c_white = (255, 255, 255)
     c_red = (255, 0, 0)
-    c_blue = (0, 0, 255)
     c_green = (0, 255, 0)
+    c_blue = (0, 0, 255)
 
     while 1:
         # Get keypresses
