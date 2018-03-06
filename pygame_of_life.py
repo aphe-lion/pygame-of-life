@@ -101,8 +101,7 @@ def main():
     # Pygame setup
     pygame.init()
     # Calculate and set displays size by generating a 2-tuple
-    display = pygame.display.set_mode(
-        (((cell_size + 1) * cell_num) - 1,) * 2)
+    display = pygame.display.set_mode((((cell_size + 1) * cell_num) - 1,) * 2)
     pygame.display.set_caption("Conway's Game of Life")
 
     # Colours
